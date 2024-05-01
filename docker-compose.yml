@@ -18,10 +18,10 @@ services:
   encuesta-nestjs:
     container_name: encuesta-nestjs
     build:
-      context: ./data/back-node
+      context: ./data/encuesta-node
       dockerfile: Dockerfile
     volumes:
-      - ./data/back-node:/usr/src/app
+      - ./data/encuesta-node:/usr/src/app
     command: npm run start:dev
     ports:
       - "3000:3000"
