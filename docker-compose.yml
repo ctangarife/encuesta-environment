@@ -25,6 +25,8 @@ services:
     command: npm run start:dev
     ports:
       - "3000:3000"
+    depends_on:
+      - encuesta-pgl
     networks:
       encuesta-network:
         aliases:
@@ -39,24 +41,13 @@ services:
       - "5437:5432"
     volumes:
       - ./db/pgl/data:/var/lib/postgresql/data
+      - ./build/pgl/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: "unless-stopped"
     networks:
       encuesta-network:
         aliases:
           - encuesta-pgl-db
-  
-  encuesta-pgl-test:
-    image: postgres:latest
-    command: sh -c "psql -h encuesta-pgl-db -U postgres -d encuesta"
-    networks:
-      - encuesta-network
-    depends_on:
-      - encuesta-pgl
-    environment:
-      PGUSER: postgres
-      PGDATABASE: encuesta
-    stdin_open: true
-    tty: true
+
 
 networks:
   encuesta-network:
