@@ -1,0 +1,15 @@
+Flask
+Flask-SQLAlchemy
+SQLAlchemy
+flask_cors
+Werkzeug
+datetime
+flask-cors
+openpyxl
+openpyxl-templates
+psycopg2
+random_object_id
+flask_expects_json
+python-dateutil
+uuid
+spacy

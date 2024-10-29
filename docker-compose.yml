@@ -23,6 +23,7 @@ services:
     volumes:
       - ./data/encuesta-node:/usr/src/app
     command: npm run start:dev
+    restart: "unless-stopped"
     ports:
       - "3000:3000"
     depends_on:
@@ -30,7 +31,7 @@ services:
     networks:
       encuesta-network:
         aliases:
-            - encuesta-back-node
+          - encuesta-back-node
 
   ## PGL
   encuesta-pgl:
@@ -48,6 +49,22 @@ services:
         aliases:
           - encuesta-pgl-db
 
+  encuesta-validator:
+    container_name: encuesta-validator
+    build:
+      context: ./
+      dockerfile: build/flask/Dockerfile
+    restart: "unless-stopped"
+    ports:
+      - "5000:5000"
+    env_file: ./build/flask/flask.env
+    command: flask run --host=0.0.0.0
+    volumes:
+      - ./data/encuesta-validator:/var/www/encuesta-validator
+    networks:
+      encuesta-network:
+        aliases:
+          - encuesta-validator
 
 networks:
   encuesta-network:
