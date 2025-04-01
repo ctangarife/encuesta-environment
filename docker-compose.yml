@@ -25,7 +25,7 @@ services:
     volumes:
       - ./data/encuesta-front:/usr/src/app
     working_dir: /usr/src/app
-    command: npm run start
+    command: sh -c "npm run build && npm run start"
     restart: "always"
     deploy:
       resources:
@@ -47,12 +47,17 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./data/encuesta-node:/usr/src/app
-    command: npm run start:dev
+    command: npm run start:prod
     restart: "unless-stopped"
     ports:
       - "3000:3000"
     depends_on:
       - encuesta-pgl
+    deploy:
+      resources:
+        limits:
+          memory: "512M"
+          cpus: "0.5"
     networks:
       encuesta-network:
         aliases:
@@ -60,7 +65,7 @@ services:
 
   ## PGL
   encuesta-pgl:
-    image: postgres:16.0
+    image: postgres:17
     container_name: encuesta-pgl
     env_file: ./build/pgl/pgl.env
     ports:
